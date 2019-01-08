@@ -1,21 +1,23 @@
 import * as React from "react";
-import { Image, StyleSheet, View, KeyboardAvoidingView, Alert, Text } from "react-native";
+import { Image, StyleSheet, View, KeyboardAvoidingView, Alert, Text, ActivityIndicator } from "react-native";
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
 import imageLogo from "../assets/images/logo.png";
 import colors from "../config/colors";
 import strings from "../config/strings";
-import { Formik, FormikProps, FormikActions } from "formik";
+import Loader from "../components/Loader";
 
 interface State {
   email: string;
   password: string;
+  loading: boolean;
 }
 
 class LoginScreen extends React.Component<{}, State> {
   readonly state: State = {
     email: "",
-    password: ""
+    password: "",
+    loading: false,
   };
 
   validateEmail = (email) => {
@@ -27,18 +29,23 @@ class LoginScreen extends React.Component<{}, State> {
     const {email, password} = this.state;
 
     if(email==""){
-      this.setState({ Error : "Fill email field!" });
+      this.setState({ error : "Fill email field!" });
     }
     else if(!this.validateEmail(this.state.email)){
-      this.setState({ Error : "Invalid email!" })
+      this.setState({ error : "Invalid email!" });
     }
     else if(password==""){
-      this.setState({ Error : "Invalid password!" });
+      this.setState({ error : "Invalid password!" });
     }
     else{
-      this.setState({ Error : "Success!" });
+      this.setState({ error : "", loading : true });
+      this.closeActivityIndicator();
     }
+
   };
+
+  closeActivityIndicator = () => setTimeout(() => this.setState({
+    loading: false }), 3000);
 
   render() {
     return (
@@ -46,7 +53,7 @@ class LoginScreen extends React.Component<{}, State> {
         <Image source={imageLogo} style={styles.logo} />
         <View style={styles.form} borderBottomWidth={100} borderBottomColor={colors.WHITE}>
         
-          <Text style={styles.error}> {this.state.Error} </Text>
+          <Text style={styles.error}> {this.state.error} </Text>
           <FormTextInput
             value={this.state.email}
             onChangeText={ email => this.setState({email}) }
@@ -63,6 +70,7 @@ class LoginScreen extends React.Component<{}, State> {
             autoCapitalize="none"
           />
           <Button label={strings.LOGIN} onPress={this.handleLoginPress} />
+          <Loader loading={this.state.loading} />
         </View>
       </KeyboardAvoidingView>
     );
