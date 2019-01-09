@@ -6,21 +6,27 @@ import imageLogo from "../assets/images/logo.png";
 import colors from "../config/colors";
 import strings from "../config/strings";
 import Loader from "../components/Loader";
+import authentication from "../lib/authentication";
+import { AsyncStorage } from "react-native";
 
 interface State {
   email: string;
   password: string;
   loading: boolean;
+  token: string;
+  error: string
 }
 
-class LoginScreen extends React.Component<{}, State> {
+class Login extends React.Component<{}, State> {
   readonly state: State = {
     email: "",
     password: "",
     loading: false,
+    token: "",
+    error: ""
   };
 
-  validateEmail = (email) => {
+  validateEmail = (email : string) => {
     const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return emailRegex.test(email);
   };
@@ -38,14 +44,47 @@ class LoginScreen extends React.Component<{}, State> {
       this.setState({ error : "Invalid password!" });
     }
     else{
-      this.setState({ error : "", loading : true });
-      this.closeActivityIndicator();
-    }
+      this.setState({ error : "" });
+      // this.closeActivityIndicator();
 
+      authentication(this.state.email, this.state.password)
+      .then( response => response.data )
+      .then(responseJson => {
+        console.log(responseJson);
+        this.storeItem("token", responseJson.data.token);
+        this.storeItem("userName", responseJson.data.user.name);
+        this.retrieveItem("token").then(console.log);
+        this.retrieveItem("userName").then(console.log);
+      })
+      .catch((error) => {
+           console.log(error);
+           throw (error.message);
+      });
+    }
   };
 
   closeActivityIndicator = () => setTimeout(() => this.setState({
     loading: false }), 3000);
+
+  async storeItem(key: string, item: string) {
+    try {
+        var jsonOfItem = await AsyncStorage.setItem(key, JSON.stringify(item));
+        return jsonOfItem;
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  async retrieveItem(key:string) {
+    try {
+      const retrievedItem =  await AsyncStorage.getItem(key) || "null";
+      const item = JSON.parse(retrievedItem);
+      return item;
+    } catch (error) {
+      console.log(error.message);
+    }
+    return
+  };
 
   render() {
     return (
@@ -71,6 +110,7 @@ class LoginScreen extends React.Component<{}, State> {
           />
           <Button label={strings.LOGIN} onPress={this.handleLoginPress} />
           <Loader loading={this.state.loading} />
+          
         </View>
       </KeyboardAvoidingView>
     );
@@ -101,4 +141,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LoginScreen;
+export default Login;
