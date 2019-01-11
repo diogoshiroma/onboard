@@ -7,7 +7,7 @@ interface Props {
   onPress: () => void;
 }
 
-class Button extends React.Component<Props> {
+class LoginButton extends React.Component<Props> {
   render() {
     const { label, onPress } = this.props;
     return (
@@ -39,4 +39,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Button;
+export default LoginButton;

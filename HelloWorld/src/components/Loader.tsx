@@ -6,7 +6,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 
-const Loader = props => {
+const Loader = (props : any) => {
   const {
     loading,
     ...attributes

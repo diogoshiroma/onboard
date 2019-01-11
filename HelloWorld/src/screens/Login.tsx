@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Image, StyleSheet, View, KeyboardAvoidingView, Alert, Text, ActivityIndicator } from "react-native";
-import Button from "../components/Button";
+import LoginButton from "../components/LoginButton";
 import FormTextInput from "../components/FormTextInput";
 import imageLogo from "../assets/images/logo.png";
 import colors from "../config/colors";
@@ -70,9 +70,9 @@ class Login extends React.Component<{}, State> {
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding" borderTopWidth={100} borderTopColor={colors.WHITE}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
         <Image source={imageLogo} style={styles.logo} />
-        <View style={styles.form} borderBottomWidth={100} borderBottomColor={colors.WHITE}>
+        <View style={styles.form}>
         
           <Text style={styles.error}> {this.state.error} </Text>
           <FormTextInput
@@ -90,7 +90,7 @@ class Login extends React.Component<{}, State> {
             secureTextEntry
             autoCapitalize="none"
           />
-          <Button label={strings.LOGIN} onPress={this.handleLoginPress} />
+          <LoginButton label={strings.LOGIN} onPress={this.handleLoginPress} />
           <Loader loading={this.state.loading} />
           
         </View>
@@ -103,7 +103,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.WHITE,
-    alignItems: "center"
+    alignItems: "center",
+    marginTop: 100,
+    marginBottom: 0
   },
   logo: {
     flex: 1,
@@ -114,7 +116,8 @@ const styles = StyleSheet.create({
   form: {
     flex: 1,
     justifyContent: "center",
-    width: "80%"
+    width: "80%",
+    marginBottom: 100
   },
 
   error: {

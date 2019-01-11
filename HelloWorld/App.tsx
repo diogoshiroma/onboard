@@ -23,7 +23,7 @@ const instructions = Platform.select({
 class App extends Component{
   render() {
     return (
-      // <Login/>
+      <View></View>
     );
   }
 }

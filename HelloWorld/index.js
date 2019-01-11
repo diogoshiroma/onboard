@@ -9,14 +9,15 @@
 
 import {Navigation} from 'react-native-navigation';
 import { registerScreens } from './src/lib/screens'
+import UserList from './src/screens/UserList';
 
 registerScreens();
-
 Navigation.events().registerAppLaunchedListener(() => {
   Navigation.setRoot({
     root: {
       component: {
-        name: 'Login'
+        // name: 'Login'
+        name: 'Home'
       }
     },
   });

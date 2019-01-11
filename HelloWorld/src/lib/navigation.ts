@@ -8,6 +8,14 @@ export const goToAuth = () => Navigation.setRoot({
   }
 });
 
+export const goToUserList = () => Navigation.setRoot({
+  root: {
+    component: {
+        name: 'UserList'
+    }
+  }
+});
+
 export const goHome = () => Navigation.setRoot({
   root: {
     stack: {
