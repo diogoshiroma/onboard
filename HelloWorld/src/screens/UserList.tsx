@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, FlatList, StyleSheet, Text, View } from 'react-native';
+import { AppRegistry, FlatList, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { List, ListItem } from 'react-native-elements'
 
 const list = [
@@ -15,39 +15,101 @@ const list = [
   }
 ]
 
+interface State {
+  loading: boolean,
+  data: [],
+  page: number,
+  seed: number,
+  error: any,
+  refreshing: boolean,
+}
 
 export default class UserList extends Component {
+  readonly state: State = {
+    loading: false,
+    data: [],
+    page: 1,
+    seed: 1,
+    error: null,
+    refreshing: false,
+  };
+
+  // constructor(props : any) {
+  //   super(props);
+
+  //   this.state = {
+  //     loading: false,
+  //     data: [],
+  //     page: 1,
+  //     seed: 1,
+  //     error: null,
+  //     refreshing: false,
+  //   };
+  // }
+
+  componentDidMount() {
+    this.makeRemoteRequest();
+  }
+
+  makeRemoteRequest = () => {
+    const { page, seed } = this.state;
+    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
+    this.setState({ loading: true });
+    fetch(url)
+      .then(res => res.json())
+      .then(res => {
+        this.setState({
+          data: page === 1 ? res.results : [...this.state.data, ...res.results],
+          error: res.error || null,
+          loading: false,
+          refreshing: false
+        });
+      })
+      .catch(error => {
+        this.setState({ error, loading: false });
+      });
+  };
+
+  renderFooter = () => {
+    if (!this.state.loading) return null;
+
+    return (
+      <View
+        style={{
+          paddingVertical: 20,
+          borderTopWidth: 1,
+          borderColor: "#CED0CE",
+          marginBottom: 50
+        }}
+      >
+        <ActivityIndicator animating size="large" />
+      </View>
+    );
+  };
+
+  handleLoadMore = () => {
+    this.setState({ page: this.state.page + 1 }, () => this.makeRemoteRequest())
+  }
 
   render() {
     return (
-      // <View style={styles.container}>
-      //   <FlatList
-      //     data={[
-      //       {key: 'Devin'},
-      //       {key: 'Jackson'},
-      //       {key: 'James'},
-      //       {key: 'Joel'},
-      //       {key: 'John'},
-      //       {key: 'Jillian'},
-      //       {key: 'Jimmy'},
-      //       {key: 'Julie'},
-      //     ]}
-      //     renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
-      //   />
-      // </View>
       <View style={styles.container}>
-        <List containerStyle={{marginBottom: 20}}>
-          {
-            list.map((l) => (
+        <List>
+          <FlatList
+            data={this.state.data}
+            renderItem={({ item }) => (
               <ListItem
                 roundAvatar
-                avatar={{uri:l.avatar_url}}
-                key={l.name}
-                title={l.name}
-                subtitle={l.subtitle}
+                title={`${item.name.first} ${item.name.last}`}
+                subtitle={item.email}
+                avatar={{ uri: item.picture.thumbnail }}
               />
-            ))
-          }
+            )}
+            keyExtractor={item => item.email}
+            ListFooterComponent={this.renderFooter}
+            onEndReached={this.handleLoadMore}
+            onEndReachedThreshold={0}
+          />
         </List>
       </View>
       
