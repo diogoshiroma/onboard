@@ -11,21 +11,29 @@
 import React, {Component} from 'react';
 import { Image, StyleSheet, View, KeyboardAvoidingView, Alert, Text, ActivityIndicator } from "react-native";
 import colors from '../config/colors';
+import { retrieveItem } from '../lib/asyncStorage';
 
 interface State {
-  email: string;
-  
+  userName: string;
 } 
 
-class Welcome extends React.Component<{}, State> {
+class Home extends React.Component<{}, State> {
   readonly state: State = {
-    email: ""
+    userName: ''
   };
+  constructor(props: any){
+    super(props);
+    retrieveItem('userName').then((name) => this.setState({ userName: name }))
+  }
+
   render() {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" borderTopWidth={100} borderTopColor={colors.WHITE}>
         <View style={styles.form}>
-          <Text style={styles.text}> BATATA!  </Text>
+          <Text style={ styles.text } onPress= {() => {
+            retrieveItem('userName').then(response => this.setState({userName : response}))
+          }}> 
+          Welcome, {this.state.userName}!!</Text>
         </View>
       </KeyboardAvoidingView>
     );
@@ -48,4 +56,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Welcome;
+export default Home;

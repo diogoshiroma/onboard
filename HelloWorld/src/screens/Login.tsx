@@ -7,7 +7,8 @@ import colors from "../config/colors";
 import strings from "../config/strings";
 import Loader from "../components/Loader";
 import authentication from "../lib/authentication";
-import { AsyncStorage } from "react-native";
+import { goHome, goToAuth } from "./navigation";
+import { storeItem, retrieveItem } from "../lib/asyncStorage";
 
 interface State {
   email: string;
@@ -44,47 +45,31 @@ class Login extends React.Component<{}, State> {
       this.setState({ error : "Invalid password!" });
     }
     else{
-      this.setState({ error : "" });
+      this.setState({ error : "" , loading: true});
       // this.closeActivityIndicator();
 
       authentication(this.state.email, this.state.password)
       .then( response => response.data )
       .then(responseJson => {
         console.log(responseJson);
-        this.storeItem("token", responseJson.data.token);
-        this.storeItem("userName", responseJson.data.user.name);
-        this.retrieveItem("token").then(console.log);
-        this.retrieveItem("userName").then(console.log);
+        storeItem("token", responseJson.data.token);
+        storeItem("userName", responseJson.data.user.name);
+        retrieveItem("token").then(console.log);
+        retrieveItem("userName").then(console.log);
+        
+        goToAuth();
+      
       })
       .catch((error) => {
-           console.log(error);
-           throw (error.message);
+        this.setState({ error: 'Usuário ou senha incorreta!', loading: false });  
+        console.log(error);
+        throw (error.message);
       });
     }
   };
 
   closeActivityIndicator = () => setTimeout(() => this.setState({
     loading: false }), 3000);
-
-  async storeItem(key: string, item: string) {
-    try {
-        var jsonOfItem = await AsyncStorage.setItem(key, JSON.stringify(item));
-        return jsonOfItem;
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  async retrieveItem(key:string) {
-    try {
-      const retrievedItem =  await AsyncStorage.getItem(key) || "null";
-      const item = JSON.parse(retrievedItem);
-      return item;
-    } catch (error) {
-      console.log(error.message);
-    }
-    return
-  };
 
   render() {
     return (
