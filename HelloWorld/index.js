@@ -8,7 +8,7 @@
 
 
 import {Navigation} from 'react-native-navigation';
-import {registerScreens} from './src/screens/screens';
+import { registerScreens } from './src/lib/screens'
 
 registerScreens();
 

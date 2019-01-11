@@ -7,7 +7,7 @@ import colors from "../config/colors";
 import strings from "../config/strings";
 import Loader from "../components/Loader";
 import authentication from "../lib/authentication";
-import { goHome, goToAuth } from "./navigation";
+import { goToAuth, goHome } from "../lib/navigation"
 import { storeItem, retrieveItem } from "../lib/asyncStorage";
 
 interface State {
@@ -54,14 +54,11 @@ class Login extends React.Component<{}, State> {
         console.log(responseJson);
         storeItem("token", responseJson.data.token);
         storeItem("userName", responseJson.data.user.name);
-        retrieveItem("token").then(console.log);
-        retrieveItem("userName").then(console.log);
-        
-        goToAuth();
-      
+
+        goToAuth();      
       })
       .catch((error) => {
-        this.setState({ error: 'Usuário ou senha incorreta!', loading: false });  
+        this.setState({ error: 'Invalid email or password!', loading: false });  
         console.log(error);
         throw (error.message);
       });
