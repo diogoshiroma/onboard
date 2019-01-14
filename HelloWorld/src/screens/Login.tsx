@@ -15,7 +15,9 @@ interface State {
   password: string;
   loading: boolean;
   token: string;
-  error: string
+  error: string;
+  emailError: boolean;
+  passwordError: boolean
 }
 
 class Login extends React.Component<{}, State> {
@@ -24,7 +26,9 @@ class Login extends React.Component<{}, State> {
     password: "",
     loading: false,
     token: "",
-    error: ""
+    error: "",
+    emailError: false,
+    passwordError:false
   };
 
   validateEmail = (email : string) => {
@@ -36,16 +40,16 @@ class Login extends React.Component<{}, State> {
     const {email, password} = this.state;
 
     if(email==""){
-      this.setState({ error : "Fill email field!" });
+      this.setState({ error : "Fill email field!", emailError: true, passwordError:false });
     }
     else if(!this.validateEmail(this.state.email)){
-      this.setState({ error : "Invalid email!" });
+      this.setState({ error : "Invalid email!", emailError: true, passwordError: false });
     }
     else if(password==""){
-      this.setState({ error : "Invalid password!" });
+      this.setState({ error : "Invalid password!", passwordError: true, emailError: false });
     }
     else{
-      this.setState({ error : "" , loading: true});
+      this.setState({ error : "" , emailError: false, passwordError: false, loading: true});
       // this.closeActivityIndicator();
 
       authentication(this.state.email, this.state.password)
@@ -55,7 +59,7 @@ class Login extends React.Component<{}, State> {
         storeItem("token", responseJson.data.token);
         storeItem("userName", responseJson.data.user.name);
 
-        goToAuth();      
+        goHome();      
       })
       .catch((error) => {
         this.setState({ error: 'Invalid email or password!', loading: false });  
@@ -70,20 +74,24 @@ class Login extends React.Component<{}, State> {
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <Image source={imageLogo} style={styles.logo} />
-        <View style={styles.form}>
+      <KeyboardAvoidingView style={ styles.container } behavior="padding">
+        <Image source={ imageLogo } style={ styles.logo } />
+        <View style={ styles.form }>
         
-          <Text style={styles.error}> {this.state.error} </Text>
+          <Text style={ styles.error }> { this.state.error } </Text>
           <FormTextInput
-            value={this.state.email}
-            onChangeText={ email => this.setState({email}) }
+            style={ this.state.emailError==true ? styles.validationError : null }
+            value={this.state.email }
+            onChangeText={ email => {
+              this.setState({email})
+           }}
             placeholder={strings.EMAIL_PLACEHOLDER}
             keyboardType="email-address"
             autoCapitalize="none"
           />
           
           <FormTextInput
+            style={ this.state.passwordError==true ? styles.validationError : null }
             value={this.state.password}
             onChangeText={password => this.setState({password})}
             placeholder={strings.PASSWORD_PLACEHOLDER}
@@ -123,6 +131,11 @@ const styles = StyleSheet.create({
   error: {
     color: colors.TORCH_RED, 
     textAlign: 'center'
+  },
+
+  validationError: {
+    borderWidth: 1,
+    borderColor: colors.TORCH_RED
   }
 });
 

@@ -1,65 +1,52 @@
 import React, { Component } from 'react';
 import { AppRegistry, FlatList, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
-import { List, ListItem } from 'react-native-elements'
+import { List, ListItem, Icon } from 'react-native-elements'
+import { retrieveItem } from '../lib/asyncStorage';
 
-const list = [
-  {
-    name: 'Amy Farha',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Vice President'
-  },
-  {
-    name: 'Chris Jackson',
-    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    subtitle: 'Vice Chairman'
-  }
-]
+const UserIcon = <Icon type='font-awesome' name='user' size={20} reverse/>
 
 interface State {
   loading: boolean,
   data: [],
   page: number,
-  seed: number,
   error: any,
   refreshing: boolean,
+  token: string
 }
 
-export default class UserList extends Component {
+export default class UserList extends React.Component<{navigation:any}, State> {
   readonly state: State = {
     loading: false,
     data: [],
     page: 1,
-    seed: 1,
     error: null,
     refreshing: false,
+    token: ''
   };
 
-  // constructor(props : any) {
-  //   super(props);
-
-  //   this.state = {
-  //     loading: false,
-  //     data: [],
-  //     page: 1,
-  //     seed: 1,
-  //     error: null,
-  //     refreshing: false,
-  //   };
-  // }
-
-  componentDidMount() {
+  async componentDidMount() {
     this.makeRemoteRequest();
   }
 
-  makeRemoteRequest = () => {
-    const { page, seed } = this.state;
-    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
+  makeRemoteRequest = async () => {
+    const { page } = this.state;
+    const token = await retrieveItem('token').then( response => this.setState({ token: response }));
+
+    const url = `https://tq-template-server-sample.herokuapp.com/users?pagination={"page": ${this.state.page} , "window": 10}`;
+
     this.setState({ loading: true });
-    fetch(url)
+    fetch(url,{
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': this.state.token
+    }
+
+    } )
       .then(res => res.json())
       .then(res => {
         this.setState({
-          data: page === 1 ? res.results : [...this.state.data, ...res.results],
+          data: page === 1 ? res.data : [...this.state.data, ...res.data],
           error: res.error || null,
           loading: false,
           refreshing: false
@@ -100,9 +87,9 @@ export default class UserList extends Component {
             renderItem={({ item }) => (
               <ListItem
                 roundAvatar
-                title={`${item.name.first} ${item.name.last}`}
-                subtitle={item.email}
-                avatar={{ uri: item.picture.thumbnail }}
+                title={`${item.name}`}
+                subtitle={item.role}
+                avatar={UserIcon}
               />
             )}
             keyExtractor={item => item.email}
@@ -112,15 +99,13 @@ export default class UserList extends Component {
           />
         </List>
       </View>
-      
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-   flex: 1,
-   paddingTop: 22
+   flex: 1
   },
   item: {
     padding: 10,

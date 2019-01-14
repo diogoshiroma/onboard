@@ -12,13 +12,13 @@ import React, {Component} from 'react';
 import { Image, StyleSheet, View, KeyboardAvoidingView, Text, ActivityIndicator, Button, TouchableOpacity } from "react-native";
 import colors from '../config/colors';
 import { retrieveItem } from '../lib/asyncStorage';
-import { goToUserList } from '../lib/navigation';
+import { Navigation } from 'react-native-navigation';
 
 interface State {
   userName: string;
 } 
 
-class Home extends React.Component<{}, State> {
+class Home extends React.Component<{componentId:any}, State> {
   readonly state: State = {
     userName: ''
   };
@@ -28,7 +28,19 @@ class Home extends React.Component<{}, State> {
   }
 
   handleLoginPress = () => {
-    goToUserList();
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'UserList',
+        options: {
+          topBar: {
+            title: {
+              text: 'User List'
+            }
+          }
+        }
+      }
+
+    })
   }
 
   render() {
@@ -54,7 +66,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.WHITE,
     alignItems: "center",
-    marginTop: 100
   },
   form: {
     alignItems: "center",    
