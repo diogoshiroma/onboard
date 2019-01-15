@@ -8,6 +8,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.119",
     "axios": "^0.18.0",
     "react": "16.6.3",
     "react-native": "0.57.8",

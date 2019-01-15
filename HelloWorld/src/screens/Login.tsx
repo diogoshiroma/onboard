@@ -7,7 +7,7 @@ import colors from "../config/colors";
 import strings from "../config/strings";
 import Loader from "../components/Loader";
 import authentication from "../lib/authentication";
-import { goToAuth, goHome } from "../lib/navigation"
+import { goHome } from "../lib/navigation"
 import { storeItem, retrieveItem } from "../lib/asyncStorage";
 
 interface State {

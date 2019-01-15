@@ -1,9 +1,9 @@
 import { Navigation } from 'react-native-navigation'
 
-export const goToAuth = () => Navigation.setRoot({
+export const goToLogin = () => Navigation.setRoot({
   root: {
     component: {
-        name: 'Home'
+        name: 'Login'
     }
   }
 });

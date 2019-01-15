@@ -9,25 +9,32 @@
  */
 
 import React, {Component} from 'react';
-import { Image, StyleSheet, View, KeyboardAvoidingView, Text, ActivityIndicator, Button, TouchableOpacity } from "react-native";
+import { StyleSheet, View, KeyboardAvoidingView, Text, ActivityIndicator, Button, TouchableOpacity, Alert, TextInput } from "react-native";
 import colors from '../config/colors';
 import { retrieveItem } from '../lib/asyncStorage';
 import { Navigation } from 'react-native-navigation';
+import { AsyncStorage } from "react-native";
+import { goToLogin } from '../lib/navigation';
 
 interface State {
-  userName: string;
+  userName: string,
+  token: string,
+  userId: string
 } 
 
 class Home extends React.Component<{componentId:any}, State> {
   readonly state: State = {
-    userName: ''
+    userName: '',
+    token: '',
+    userId: ''
   };
   constructor(props: any){
     super(props);
     retrieveItem('userName').then((name) => this.setState({ userName: name }))
+    retrieveItem('token').then((token) => this.setState({ token: token }))
   }
 
-  handleLoginPress = () => {
+  handleUserList = () => {
     Navigation.push(this.props.componentId, {
       component: {
         name: 'UserList',
@@ -37,25 +44,34 @@ class Home extends React.Component<{componentId:any}, State> {
               text: 'User List'
             }
           }
+        },
+        passProps: {
+          token: this.state.token
         }
       }
-
     })
+  }
+
+  handleLogoutPress = async () => {
+    AsyncStorage.removeItem('token');
+    // await Alert.alert('You have been logged out.');
+    goToLogin();
   }
 
   render() {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" >
         <View style={styles.form}>
-          <Text style={ styles.text } onPress= {() => {
-            retrieveItem('userName').then(response => this.setState({userName : response}))
-          }}> 
-          Welcome, {this.state.userName}!!</Text>
-          
-        </View>
-        <TouchableOpacity style={ styles.buttonContainer } onPress={this.handleLoginPress} >
+          <Text style={ styles.text }> Welcome, {this.state.userName}!! </Text>
+
+          <TouchableOpacity style={ styles.buttonContainer } onPress={this.handleUserList} >
             <Text style={ styles.buttonText }> Users list</Text>
-        </TouchableOpacity>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={ styles.buttonContainer } onPress={this.handleLogoutPress} >
+              <Text style={ styles.buttonText }> Logout </Text>
+          </TouchableOpacity>
+        </View>
       </KeyboardAvoidingView>
     );
   }

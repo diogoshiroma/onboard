@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { AppRegistry, FlatList, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { List, ListItem, Icon } from 'react-native-elements'
 import { retrieveItem } from '../lib/asyncStorage';
+import { Navigation } from 'react-native-navigation';
 
 const UserIcon = <Icon type='font-awesome' name='user' size={20} reverse/>
 
@@ -10,28 +11,25 @@ interface State {
   data: [],
   page: number,
   error: any,
-  refreshing: boolean,
-  token: string
+  refreshing: boolean
 }
 
-export default class UserList extends React.Component<{navigation:any}, State> {
+export default class UserList extends React.Component<{componentId:any, token: string}, State> {
   readonly state: State = {
     loading: false,
     data: [],
     page: 1,
     error: null,
     refreshing: false,
-    token: ''
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     this.makeRemoteRequest();
   }
 
   makeRemoteRequest = async () => {
     const { page } = this.state;
-    const token = await retrieveItem('token').then( response => this.setState({ token: response }));
-
+    const token = this.props.token;
     const url = `https://tq-template-server-sample.herokuapp.com/users?pagination={"page": ${this.state.page} , "window": 10}`;
 
     this.setState({ loading: true });
@@ -39,10 +37,8 @@ export default class UserList extends React.Component<{navigation:any}, State> {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': this.state.token
-    }
-
-    } )
+        'Authorization': token
+      }})
       .then(res => res.json())
       .then(res => {
         this.setState({
@@ -90,6 +86,25 @@ export default class UserList extends React.Component<{navigation:any}, State> {
                 title={`${item.name}`}
                 subtitle={item.role}
                 avatar={UserIcon}
+                onPress={ () => {
+                  Navigation.push(this.props.componentId, {
+                    component: {
+                      name: 'UserDetails',
+                      options: {
+                        topBar: {
+                          title: {
+                            text: 'User Details'
+                          }
+                        }
+                      },
+                      passProps: {
+                        userId: item.id,
+                        token: this.props.token
+                      }
+                    }
+                  })
+
+                }}
               />
             )}
             keyExtractor={item => item.email}
