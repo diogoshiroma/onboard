@@ -9,23 +9,21 @@
  */
 
 import React, {Component} from 'react';
-import { Image, StyleSheet, View, KeyboardAvoidingView, Text, ActivityIndicator, Button, TouchableOpacity, AlertIOS, TextInput } from "react-native";
+import { StyleSheet, View, KeyboardAvoidingView, Text, Button, TouchableOpacity, AlertIOS, TextInput } from "react-native";
 import colors from '../config/colors';
-import { retrieveItem } from '../lib/asyncStorage';
-import { Navigation } from 'react-native-navigation';
-import { AsyncStorage } from "react-native";
 import getUserById from '../lib/getUser';
-import FormTextInput from '../components/FormTextInput';
 
 interface State {
-  userName: string,
-  userEmail: string
+  name: string,
+  email: string,
+  role: string
 } 
 
 class UserDetails extends React.Component<{componentId:any, userId:number, token:string}, State> {
   readonly state: State = {
-    userName: '',
-    userEmail: ''
+    name: '',
+    email: '',
+    role: ''
   };
 
   componentDidMount = () => {
@@ -33,8 +31,9 @@ class UserDetails extends React.Component<{componentId:any, userId:number, token
       .then(response => response.data)
       .then(responseJson => {
         console.log(responseJson)
-        this.setState({ userName: responseJson.data.name });
-        this.setState({ userEmail: responseJson.data.email });
+        this.setState({ name: responseJson.data.name });
+        this.setState({ email: responseJson.data.email });
+        this.setState({ role: responseJson.data.role });
       })
       ;
   }
@@ -43,8 +42,10 @@ class UserDetails extends React.Component<{componentId:any, userId:number, token
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" >
         <View style={styles.form}>
-            <Text style={ styles.text } > User name: {this.state.userName}!! </Text>
-            <Text style={ styles.text }> User email: {this.state.userEmail} </Text>
+            <Text style={ styles.text } > User name: {this.state.name}!! </Text>
+            <Text style={ styles.text }> Email: {this.state.email} </Text>
+            <Text style={ styles.text }> Role: {this.state.role} </Text>
+
         </View>
       </KeyboardAvoidingView>
     );
