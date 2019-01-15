@@ -1,5 +1,4 @@
 import {Navigation} from 'react-native-navigation';
-import UserList from '../screens/UserList';
 
 export function registerScreens() {
   Navigation.registerComponent('Login', () => require('../screens/Login').default);
@@ -7,5 +6,5 @@ export function registerScreens() {
   Navigation.registerComponent('Home', () => require('../screens/Home').default);
   Navigation.registerComponent('UserList', () => require('../screens/UserList').default);
   Navigation.registerComponent('UserDetails', () => require('../screens/UserDetails').default);
-
+  Navigation.registerComponent('SignUp', () => require('../screens/SignUp').default);
 }

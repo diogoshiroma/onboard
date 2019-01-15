@@ -9,7 +9,7 @@
  */
 
 import React, {Component} from 'react';
-import { StyleSheet, View, KeyboardAvoidingView, Text, Button, TouchableOpacity, AlertIOS, TextInput } from "react-native";
+import { StyleSheet, View, KeyboardAvoidingView, Text } from "react-native";
 import colors from '../config/colors';
 import getUserById from '../lib/getUser';
 

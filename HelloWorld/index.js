@@ -17,7 +17,7 @@ Navigation.events().registerAppLaunchedListener(() => {
 
       component: {
         name: 'Login'
-        // name: 'Home'
+        // name: 'SignUp'
       }
     },
   });

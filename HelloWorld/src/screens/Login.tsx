@@ -9,6 +9,7 @@ import Loader from "../components/Loader";
 import authentication from "../lib/authentication";
 import { goHome } from "../lib/navigation"
 import { storeItem, retrieveItem } from "../lib/asyncStorage";
+import { validateEmail } from "../lib/validations";
 
 interface State {
   email: string;
@@ -31,18 +32,13 @@ class Login extends React.Component<{}, State> {
     passwordError:false
   };
 
-  validateEmail = (email : string) => {
-    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return emailRegex.test(email);
-  };
-
   handleLoginPress = () => {
     const {email, password} = this.state;
 
     if(email==""){
       this.setState({ error : "Fill email field!", emailError: true, passwordError:false });
     }
-    else if(!this.validateEmail(this.state.email)){
+    else if(!validateEmail(this.state.email)){
       this.setState({ error : "Invalid email!", emailError: true, passwordError: false });
     }
     else if(password==""){
@@ -50,7 +46,6 @@ class Login extends React.Component<{}, State> {
     }
     else{
       this.setState({ error : "" , emailError: false, passwordError: false, loading: true});
-      // this.closeActivityIndicator();
 
       authentication(this.state.email, this.state.password)
       .then( response => response.data )
@@ -69,8 +64,6 @@ class Login extends React.Component<{}, State> {
     }
   };
 
-  closeActivityIndicator = () => setTimeout(() => this.setState({
-    loading: false }), 3000);
 
   render() {
     return (

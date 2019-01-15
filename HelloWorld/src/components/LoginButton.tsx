@@ -25,6 +25,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: colors.BLACK,
     marginBottom: 12,
+    marginTop: 40,
+
     paddingVertical: 12,
     borderRadius: 4,
     borderWidth: StyleSheet.hairlineWidth,

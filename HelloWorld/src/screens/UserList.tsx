@@ -95,7 +95,7 @@ export default class UserList extends React.Component<{componentId:any, token: s
                           title: {
                             text: 'User Details'
                           }
-                        }
+                        },
                       },
                       passProps: {
                         userId: item.id,
@@ -103,7 +103,6 @@ export default class UserList extends React.Component<{componentId:any, token: s
                       }
                     }
                   })
-
                 }}
               />
             )}
