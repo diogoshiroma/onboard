@@ -57,7 +57,7 @@ class Login extends React.Component<{}, State> {
         goHome();      
       })
       .catch((error) => {
-        this.setState({ error: 'Invalid email or password!', loading: false });  
+        this.setState({ error: 'Invalid email or password!', loading: false });
         console.log(error);
         throw (error.message);
       });

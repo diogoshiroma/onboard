@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, KeyboardAvoidingView, Text} from "react-native";
+import { StyleSheet, View, KeyboardAvoidingView, Text, Linking} from "react-native";
 import LoginButton from "../components/LoginButton";
 import FormTextInput from "../components/FormTextInput";
 import colors from "../config/colors";
@@ -7,6 +7,9 @@ import strings from "../config/strings";
 import Loader from "../components/Loader";
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 import { validateEmail, validateName, validatePassword } from "../lib/validations";
+import { goToLogin, goHome } from '../lib/navigation';
+import createUser from "../lib/createUser";
+
 
 interface State {
   email: string;
@@ -22,7 +25,7 @@ interface State {
   confirmationError: boolean;
 }
 
-class SignUp extends React.Component<{}, State> {
+class CreateUser extends React.Component<{token: string}, State> {
   readonly state: State = {
     email: "",
     name: "",
@@ -37,8 +40,9 @@ class SignUp extends React.Component<{}, State> {
     confirmationError: false
   };
 
-  handleLoginPress = () => {
+  handleCreatePress = () => {
     const {email, password, passConfirmation, name, role} = this.state;
+    const token = this.props.token;
 
     if(name == ""){
         this.setState({ 
@@ -105,26 +109,38 @@ class SignUp extends React.Component<{}, State> {
     });
     }
     else{
-      this.setState({ 
+        this.setState({ 
           error : "" , 
           nameError: false, 
           emailError: false, 
           passwordError: false, 
           confirmationError: false,
-        //   loading: true
+          loading: true
+        });
+
+        createUser(token, name, email, password, role)
+        .then( response => response.data)
+        .then( responseJson => {
+          console.log(responseJson);
+          console.warn("User successfully created!");
+        })
+        .catch( error => {
+            console.log(error);
+            console.warn(error);
+            throw (error.message);
         });
     }
   };
 
-    _menu = null;
+    _menu : Menu = null;
     _role = "Role"
  
-  setMenuRef = ref => {
+  setMenuRef = (ref : any) => {
     this._menu = ref;
   };
  
   hideMenu = () => {
-    this._menu.hide();
+    if(this._menu) this._menu.hide();
   };
  
   showMenu = () => {
@@ -154,7 +170,7 @@ class SignUp extends React.Component<{}, State> {
             style={ this.state.nameError==true ? styles.validationError : null }
             value={this.state.name }
             onChangeText={ name => {
-                this.setState({name})
+                this.setState({name});
             }}
             placeholder="Name"
             autoCapitalize="none"
@@ -197,8 +213,9 @@ class SignUp extends React.Component<{}, State> {
                 <MenuItem onPress={this.selectUser}>User</MenuItem>
                 <MenuItem onPress={this.selectAdmin}>Admin</MenuItem>
             </Menu>
-
-            <LoginButton label={strings.LOGIN} onPress={this.handleLoginPress} />
+            
+            <LoginButton label="Create" onPress={this.handleCreatePress} />
+            <Text style={{textAlign:"center"}} onPress={() => goHome()}>or return to home</Text>
             <Loader loading={this.state.loading} />
             
         </View>
@@ -238,4 +255,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SignUp;
+export default CreateUser;

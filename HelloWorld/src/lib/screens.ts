@@ -6,5 +6,6 @@ export function registerScreens() {
   Navigation.registerComponent('Home', () => require('../screens/Home').default);
   Navigation.registerComponent('UserList', () => require('../screens/UserList').default);
   Navigation.registerComponent('UserDetails', () => require('../screens/UserDetails').default);
-  Navigation.registerComponent('SignUp', () => require('../screens/SignUp').default);
+  Navigation.registerComponent('CreateUser', () => require('../screens/CreateUser').default);
+  // Navigation.registerComponent('EditUser', () => require('../screens/EditUser').default);
 }

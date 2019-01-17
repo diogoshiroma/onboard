@@ -32,7 +32,7 @@ class Home extends React.Component<{componentId:any}, State> {
     super(props);
     retrieveItem('userName').then((name) => this.setState({ userName: name }))
     retrieveItem('token').then((token) => this.setState({ token: token }))
-  }
+  };
 
   handleUserList = () => {
     Navigation.push(this.props.componentId, {
@@ -50,7 +50,25 @@ class Home extends React.Component<{componentId:any}, State> {
         }
       }
     })
-  }
+  };
+
+  handleCreateUser = () => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'CreateUser',
+        options: {
+          topBar: {
+            title: {
+              text: 'Create User'
+            }
+          }
+        },
+        passProps: {
+          token: this.state.token
+        }
+      }
+    });
+  };
 
   handleLogoutPress = async () => {
     AsyncStorage.removeItem('token');
@@ -67,6 +85,12 @@ class Home extends React.Component<{componentId:any}, State> {
           <TouchableOpacity style={ styles.buttonContainer } onPress={this.handleUserList} >
             <Text style={ styles.buttonText }> Users list</Text>
           </TouchableOpacity>
+
+
+          <TouchableOpacity style={ styles.buttonContainer } onPress={this.handleCreateUser} >
+            <Text style={styles.buttonText}>Create user</Text>
+          </TouchableOpacity>
+
 
           <TouchableOpacity style={ styles.buttonContainer } onPress={this.handleLogoutPress} >
               <Text style={ styles.buttonText }> Logout </Text>
