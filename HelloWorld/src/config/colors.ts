@@ -3,6 +3,7 @@ const colors = {
     WHITE: "#FFF",
     DODGER_BLUE: "#428AF8",
     SILVER: "#BEBEBE",
+    LIGHT_GRAY: "#EAEAEA",
     TORCH_RED: "#F8262F",
     MISCHKA: "#E5E4E6"
   };

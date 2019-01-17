@@ -183,10 +183,21 @@ class UserDetails extends React.Component<{componentId:string, token: string, us
             editable={this.state.editable}
             />
 
-            <Menu
+<Menu
             style={styles.menu}
             ref={this.setMenuRef}
-            button={<Text style={{marginTop: 10}} onPress={this.showMenu}>{this._role}</Text>}
+            // button={<Text style={{marginTop: 10}}onPress={this.showMenu}>{this._role}</Text>}
+            button={
+              <Button 
+              buttonStyle={styles.menuButton}
+              backgroundColor={colors.LIGHT_GRAY}
+              textStyle={{color: colors.SILVER}}
+              onPress={ this.showMenu } 
+              title={this._role}
+              rightIcon={{name:"chevron-down", type:"entypo"}}
+              fontSize={14}
+            />
+            }
             >
                 <MenuItem onPress={this.selectUser}>User</MenuItem>
                 <MenuItem onPress={this.selectAdmin}>Admin</MenuItem>
@@ -231,7 +242,13 @@ const styles = StyleSheet.create({
   },
 
   menu: {
-    marginTop: 30
+    marginTop: 40,
+    marginLeft: 14
+  },
+
+  menuButton: {
+    width: 80,
+    padding: 10,
   }
 });
 

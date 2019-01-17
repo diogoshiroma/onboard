@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, KeyboardAvoidingView, Text, Linking} from "react-native";
+import { StyleSheet, View, KeyboardAvoidingView, Text, Linking, Alert} from "react-native";
 import LoginButton from "../components/LoginButton";
 import FormTextInput from "../components/FormTextInput";
 import colors from "../config/colors";
@@ -9,6 +9,7 @@ import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 import { validateEmail, validateName, validatePassword } from "../lib/validations";
 import { goToLogin, goHome } from '../lib/navigation';
 import createUser from "../lib/createUser";
+import { Icon, Button } from "react-native-elements"
 
 
 interface State {
@@ -208,7 +209,18 @@ class CreateUser extends React.Component<{token: string}, State> {
             <Menu
             style={styles.menu}
             ref={this.setMenuRef}
-            button={<Text style={{marginTop: 10}}onPress={this.showMenu}>{this._role}</Text>}
+            // button={<Text style={{marginTop: 10}}onPress={this.showMenu}>{this._role}</Text>}
+            button={
+              <Button 
+              buttonStyle={styles.menuButton}
+              backgroundColor={colors.LIGHT_GRAY}
+              textStyle={{color: colors.SILVER}}
+              onPress={ this.showMenu } 
+              title={this._role}
+              rightIcon={{name:"chevron-down", type:"entypo"}}
+              fontSize={14}
+            />
+            }
             >
                 <MenuItem onPress={this.selectUser}>User</MenuItem>
                 <MenuItem onPress={this.selectAdmin}>Admin</MenuItem>
@@ -251,7 +263,13 @@ const styles = StyleSheet.create({
   },
 
   menu: {
-    marginTop: 30
+    marginTop: 40,
+    marginLeft: 14
+  },
+
+  menuButton: {
+    width: 80,
+    padding: 10,
   }
 });
 

@@ -16,8 +16,8 @@ Navigation.events().registerAppLaunchedListener(() => {
     root: {
 
       component: {
-        name: 'Login'
-        // name: 'UserDetails'
+        // name: 'Login'
+        name: 'CreateUser'
       }
     },
   });

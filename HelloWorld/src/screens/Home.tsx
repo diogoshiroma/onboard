@@ -86,11 +86,9 @@ class Home extends React.Component<{componentId:any}, State> {
             <Text style={ styles.buttonText }> Users list</Text>
           </TouchableOpacity>
 
-
           <TouchableOpacity style={ styles.buttonContainer } onPress={this.handleCreateUser} >
             <Text style={styles.buttonText}>Create user</Text>
           </TouchableOpacity>
-
 
           <TouchableOpacity style={ styles.buttonContainer } onPress={this.handleLogoutPress} >
               <Text style={ styles.buttonText }> Logout </Text>
@@ -113,7 +111,8 @@ const styles = StyleSheet.create({
     width: "80%"
   },
   text: {
-    color: colors.DODGER_BLUE
+    marginTop: 20,
+    color: colors.BLACK
   },
 
   buttonContainer: {
@@ -128,6 +127,7 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255,255,255,0.7)",
     marginTop: 100
   },
+
   buttonText: {
     color: colors.WHITE,
     textAlign: "center",
