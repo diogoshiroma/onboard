@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, StyleSheet, View, KeyboardAvoidingView, Alert, Text, ActivityIndicator } from "react-native";
+import { Image, StyleSheet, View, KeyboardAvoidingView, Text } from "react-native";
 import LoginButton from "../components/LoginButton";
 import FormTextInput from "../components/FormTextInput";
 import imageLogo from "../assets/images/logo.png";
@@ -8,7 +8,7 @@ import strings from "../config/strings";
 import Loader from "../components/Loader";
 import authentication from "../lib/authentication";
 import { goHome } from "../lib/navigation"
-import { storeItem, retrieveItem } from "../lib/asyncStorage";
+import { storeItem } from "../lib/asyncStorage";
 import { validateEmail } from "../lib/validations";
 
 interface State {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { AppRegistry, FlatList, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import { FlatList, StyleSheet, View, ActivityIndicator } from 'react-native';
 import { List, ListItem, Icon } from 'react-native-elements'
-import { retrieveItem } from '../lib/asyncStorage';
 import { Navigation } from 'react-native-navigation';
 
 const UserIcon = <Icon type='font-awesome' name='user' size={20} reverse/>

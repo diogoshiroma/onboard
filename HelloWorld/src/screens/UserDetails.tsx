@@ -5,12 +5,13 @@ import FormTextInput from "../components/FormTextInput";
 import colors from "../config/colors";
 import strings from "../config/strings";
 import Loader from "../components/Loader";
-import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
-import { validateEmail, validateName, validatePassword } from "../lib/validations";
-import { goToLogin, goHome, goToUserDetails } from '../lib/navigation';
+import Menu, { MenuItem } from 'react-native-material-menu';
+import { validateEmail, validateName } from "../lib/validations";
+import { goHome } from '../lib/navigation';
 import editUser from "../lib/editUser";
 import { Navigation } from "react-native-navigation";
 import getUserById from '../lib/getUser';
+import { Button } from 'react-native-elements'
 
 interface State {
   email: string;
@@ -182,11 +183,10 @@ class UserDetails extends React.Component<{componentId:string, token: string, us
             autoCapitalize="none"
             editable={this.state.editable}
             />
-
-<Menu
+  
+            <Menu
             style={styles.menu}
             ref={this.setMenuRef}
-            // button={<Text style={{marginTop: 10}}onPress={this.showMenu}>{this._role}</Text>}
             button={
               <Button 
               buttonStyle={styles.menuButton}

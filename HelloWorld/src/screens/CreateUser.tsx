@@ -5,11 +5,11 @@ import FormTextInput from "../components/FormTextInput";
 import colors from "../config/colors";
 import strings from "../config/strings";
 import Loader from "../components/Loader";
-import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
+import Menu, { MenuItem } from 'react-native-material-menu';
 import { validateEmail, validateName, validatePassword } from "../lib/validations";
-import { goToLogin, goHome } from '../lib/navigation';
+import { goHome } from '../lib/navigation';
 import createUser from "../lib/createUser";
-import { Icon, Button } from "react-native-elements"
+import { Button } from "react-native-elements"
 
 
 interface State {
@@ -209,7 +209,6 @@ class CreateUser extends React.Component<{token: string}, State> {
             <Menu
             style={styles.menu}
             ref={this.setMenuRef}
-            // button={<Text style={{marginTop: 10}}onPress={this.showMenu}>{this._role}</Text>}
             button={
               <Button 
               buttonStyle={styles.menuButton}

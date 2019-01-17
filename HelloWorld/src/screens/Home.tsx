@@ -9,7 +9,7 @@
  */
 
 import React, {Component} from 'react';
-import { StyleSheet, View, KeyboardAvoidingView, Text, ActivityIndicator, Button, TouchableOpacity, Alert, TextInput } from "react-native";
+import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity } from "react-native";
 import colors from '../config/colors';
 import { retrieveItem } from '../lib/asyncStorage';
 import { Navigation } from 'react-native-navigation';
