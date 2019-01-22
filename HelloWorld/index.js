@@ -7,7 +7,7 @@
 // AppRegistry.registerComponent(appName, () => App);
 
 import {Navigation} from 'react-native-navigation';
-import { registerScreens } from './src/lib/screens'
+import { registerScreens } from './src/app/modules/navigation/screens'
 
 registerScreens();
 Navigation.events().registerAppLaunchedListener(() => {

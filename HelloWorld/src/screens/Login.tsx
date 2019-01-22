@@ -3,13 +3,13 @@ import { Image, StyleSheet, View, KeyboardAvoidingView, Text } from "react-nativ
 import LoginButton from "../components/LoginButton";
 import FormTextInput from "../components/FormTextInput";
 import imageLogo from "../assets/images/logo.png";
-import colors from "../config/colors";
-import strings from "../config/strings";
+import colors from "../app/resource/colors";
+import strings from "../app/resource/strings";
 import Loader from "../components/Loader";
-import authentication from "../lib/authentication";
-import { goHome } from "../lib/navigation"
-import { storeItem } from "../lib/asyncStorage";
-import { validateEmail } from "../lib/validations";
+import authentication from "../app/core/http/authentication";
+import { goHome } from "../app/modules/navigation/navigation"
+import { storeItem } from "../app/core/storage/asyncStorage";
+import { validateEmail } from "../components/form/validations";
 
 interface State {
   email: string;

@@ -8,13 +8,13 @@
  * @format
  */
 
-import React, {Component} from 'react';
+import React from 'react';
 import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity } from "react-native";
-import colors from '../config/colors';
-import { retrieveItem } from '../lib/asyncStorage';
+import colors from '../app/resource/colors';
+import { retrieveItem } from '../app/core/storage/asyncStorage';
 import { Navigation } from 'react-native-navigation';
 import { AsyncStorage } from "react-native";
-import { goToLogin } from '../lib/navigation';
+import { goToLogin } from '../app/modules/navigation/navigation';
 
 interface State {
   userName: string,

@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { FlatList, StyleSheet, View, ActivityIndicator } from 'react-native';
-import { List, ListItem, Icon } from 'react-native-elements'
+import { List, ListItem, Icon } from 'react-native-elements';
 import { Navigation } from 'react-native-navigation';
 
 const UserIcon = <Icon type='font-awesome' name='user' size={20} reverse/>

@@ -1,15 +1,15 @@
 import * as React from "react";
-import { StyleSheet, View, KeyboardAvoidingView, Text, Linking, Alert} from "react-native";
+import { StyleSheet, View, KeyboardAvoidingView, Text} from "react-native";
 import LoginButton from "../components/LoginButton";
 import FormTextInput from "../components/FormTextInput";
-import colors from "../config/colors";
-import strings from "../config/strings";
+import colors from "../app/resource/colors";
+import strings from "../app/resource/strings";
 import Loader from "../components/Loader";
 import Menu, { MenuItem } from 'react-native-material-menu';
-import { validateEmail, validateName, validatePassword } from "../lib/validations";
-import { goHome } from '../lib/navigation';
-import createUser from "../lib/createUser";
-import { Button } from "react-native-elements"
+import { validateEmail, validateName, validatePassword } from "../components/form/validations";
+import { goHome } from '../app/modules/navigation/navigation';
+import createUser from "../app/core/http/createUser";
+import { Button } from "react-native-elements";
 
 
 interface State {
