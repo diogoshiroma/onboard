@@ -14,7 +14,7 @@ Navigation.events().registerAppLaunchedListener(() => {
   Navigation.setRoot({
     root: {
       component: {
-        name: 'Login'
+        name: 'Test'
       }
     },
   });

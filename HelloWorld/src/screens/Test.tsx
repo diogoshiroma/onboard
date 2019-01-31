@@ -1,15 +1,6 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * 
- * Generated with the TypeScript template
- * https://github.com/emin93/react-native-template-typescript
- * 
- * @format
- */
-
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
+import { WebView } from "react-native";
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -18,7 +9,18 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-class App extends Component{
+
+// const StyledView = styled.View`
+//   background-color: papayawhip;
+// `;
+
+// const StyledText = styled.Text`
+//   color: palevioletred;
+// `;
+
+
+
+class Test extends Component{
   render() {
     return (
       <View style={styles.container}>
@@ -31,6 +33,9 @@ class App extends Component{
         <Text style={styles.instructions}>
           {instructions}
         </Text>
+
+        <Text style={{marginTop:150}}> BATATA </Text>
+
       </View>
     );
   }
@@ -55,4 +60,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Test;

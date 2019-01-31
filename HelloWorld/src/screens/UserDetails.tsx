@@ -127,7 +127,7 @@ class UserDetails extends React.Component<{componentId:string, token: string, us
     this.setState({ editable: false, buttonText: "Edit" });
   };
 
-    _menu: Menu = null;
+    _menu: any = null;
     _role = "Role"
  
   setMenuRef = (ref:any) => {
@@ -214,7 +214,6 @@ class UserDetails extends React.Component<{componentId:string, token: string, us
     );
   }
 }
-const batata : string = "";
 
 const styles = StyleSheet.create({
   container: {
