@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View, FlatList} from 'react-native';
 import { WebView } from "react-native";
+import { observable, computed } from 'mobx';
+import { observer } from 'mobx-react';
+import { Button, List, ListItem, Icon } from 'react-native-elements';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -9,43 +12,64 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-
-// const StyledView = styled.View`
-//   background-color: papayawhip;
-// `;
-
-// const StyledText = styled.Text`
-//   color: palevioletred;
-// `;
+const UserIcon = <Icon type='font-awesome' name='user' size={20} reverse/>
 
 
 
+@observer
 class Test extends Component{
+
+  // @observable value = 1;
+  @observable data=[{name: "aaaaaa", role: 'admin'}, {name: 'b', role: 'user'}]
+
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
+        {/* <Text style={{marginTop:150}}> Result: {this.value} </Text>
+        <Text > Computed Result: {this.computedValue} </Text>
+        <Button title="Roll" onPress={this.handleRoll}/> */}
 
-        <Text style={{marginTop:150}}> BATATA </Text>
+       {this.renderItem}
+        <Button title="add" onPress={this.addItem}/>
 
       </View>
     );
   }
+
+  // @computed get computedValue () {
+  //   return this.value > 3 ? "WIN" : "LOSE"
+  // }
+
+  // handleRoll = () => {
+  //   this.value = Math.floor(Math.random()*6) + 1;
+  // }
+
+  @computed get renderItem () {return (
+    
+      this.data.map((item, i) => (
+        <ListItem
+          key={i}
+          title={item.name}
+          subtitle={item.role}
+          leftIcon={UserIcon}
+        />
+      ))
+    
+  )};
+
+  addItem = () => {
+    this.data.push({name:"lolol", role:"user"})
+  }
+
 }
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    // alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
   welcome: {
