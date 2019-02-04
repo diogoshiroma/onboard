@@ -11,7 +11,11 @@ import { goHome } from '../app/modules/navigation/navigation';
 import editUser from "../app/core/http/editUser";
 import { Navigation } from "react-native-navigation";
 import getUserById from '../app/core/http/getUser';
-import { Button } from 'react-native-elements'
+import { Button } from 'react-native-elements';
+import Container from "typedi";
+import UserStore from "../app/data/user.store";
+
+const store = Container.get(UserStore);
 
 interface State {
   email: string;
@@ -110,6 +114,7 @@ class UserDetails extends React.Component<{componentId:string, token: string, us
         editUser(token, userId, name, email, role)
         .then( response => response.data)
         .then( responseJson => {
+          store.updateUsers();
           console.log(responseJson);
           console.warn("Changes saved!");
           this.setState({ error: "", loading: false });        

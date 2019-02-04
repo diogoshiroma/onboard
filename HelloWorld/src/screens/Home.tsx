@@ -9,7 +9,7 @@
  */
 
 import React from 'react';
-import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, KeyboardAvoidingView, Text, TouchableOpacity, Alert } from "react-native";
 import colors from '../app/resource/colors';
 import { retrieveItem } from '../app/core/storage/asyncStorage';
 import { Navigation } from 'react-native-navigation';
@@ -72,7 +72,7 @@ class Home extends React.Component<{componentId:any}, State> {
 
   handleLogoutPress = async () => {
     AsyncStorage.removeItem('token');
-    // await Alert.alert('You have been logged out.');
+    Alert.alert('You have been logged out.');
     goToLogin();
   }
 

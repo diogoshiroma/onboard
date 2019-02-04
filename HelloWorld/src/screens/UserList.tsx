@@ -2,28 +2,32 @@ import React from 'react';
 import { FlatList, StyleSheet, View, ActivityIndicator } from 'react-native';
 import { List, ListItem, Icon } from 'react-native-elements';
 import { Navigation } from 'react-native-navigation';
+import { observer } from 'mobx-react';
+import Container from 'typedi';
+import UserStore from '../app/data/user.store';
 
 const UserIcon = <Icon type='font-awesome' name='user' size={20} reverse/>
+const store = Container.get(UserStore)
 
 interface State {
   loading: boolean,
-  data: [],
   page: number,
   error: any,
   refreshing: boolean
 }
 
+@observer
 export default class UserList extends React.Component<{componentId:any, token: string}, State> {
   readonly state: State = {
     loading: false,
-    data: [],
     page: 1,
     error: null,
     refreshing: false,
   };
 
   componentDidMount() {
-    this.makeRemoteRequest();
+    // this.makeRemoteRequest();
+    store.updateUsers();
   }
 
   makeRemoteRequest = async () => {
@@ -41,7 +45,7 @@ export default class UserList extends React.Component<{componentId:any, token: s
       .then(res => res.json())
       .then(res => {
         this.setState({
-          data: page === 1 ? res.data : [...this.state.data, ...res.data],
+          // data: page === 1 ? res.data : [...this.state.data, ...res.data],
           error: res.error || null,
           loading: false,
           refreshing: false
@@ -78,8 +82,8 @@ export default class UserList extends React.Component<{componentId:any, token: s
       <View style={styles.container}>
         <List>
           <FlatList
-            data={this.state.data}
-            renderItem={({ item }) => (
+            data={store.data}
+            renderItem={({ item } : any) => (
               <ListItem
                 roundAvatar
                 title={`${item.name}`}
@@ -105,7 +109,7 @@ export default class UserList extends React.Component<{componentId:any, token: s
                 }}
               />
             )}
-            keyExtractor={item => item.email}
+            keyExtractor={(item) => item.email}
             ListFooterComponent={this.renderFooter}
             onEndReached={this.handleLoadMore}
             onEndReachedThreshold={0}

@@ -133,7 +133,7 @@ class CreateUser extends React.Component<{token: string}, State> {
     }
   };
 
-    _menu : Menu = null;
+    _menu : any = null;
     _role = "Role"
  
   setMenuRef = (ref : any) => {

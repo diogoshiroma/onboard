@@ -50,7 +50,7 @@ class Login extends React.Component<{}, State> {
       authentication(this.state.email, this.state.password)
       .then( response => response.data )
       .then(responseJson => {
-        console.log(responseJson);
+        console.log(Date.now());
         storeItem("token", responseJson.data.token);
         storeItem("userName", responseJson.data.user.name);
 
